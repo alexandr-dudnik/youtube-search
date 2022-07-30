@@ -12,7 +12,10 @@ import com.alexanderdudnik.youtubesearch.viewmodels.SearchViewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<SearchViewModel> {
-        SearchViewModel.SearchViewModelFactory(getString(R.string.search_url))
+        SearchViewModel.SearchViewModelFactory(
+            url =  getString(R.string.search_url),
+            pageSize = 5
+        )
     }
     private lateinit var binder: ActivityMainBinding
     private val adapter = YoutubeListAdapter()
@@ -24,6 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binder.root)
 
         binder.videoList.adapter = adapter
+        binder.searchQueryText.addTextChangedListener {
+            viewModel.search(it?.toString()?:"")
+        }
+        binder.nextPage.setOnClickListener { viewModel.nextPage() }
+        binder.prevPage.setOnClickListener { viewModel.prevPage() }
 
         viewModel.error.observe(this){ message ->
             message?.let{
@@ -40,8 +48,10 @@ class MainActivity : AppCompatActivity() {
             binder.videoList.isVisible = list.isNotEmpty()
         }
 
-        binder.searchQueryText.addTextChangedListener {
-            viewModel.search(it?.toString()?:"")
+        viewModel.page.observe(this){ number ->
+            val num = number+1
+            binder.pageNumber.text = num.toString()
         }
+
     }
 }

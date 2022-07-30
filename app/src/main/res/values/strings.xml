@@ -6,4 +6,6 @@
     <string name="iframe" formatted="true">
         <![CDATA[<iframe width="320" height="250" src="https://www.youtube.com/embed/%s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]>
     </string>
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
 </resources>
